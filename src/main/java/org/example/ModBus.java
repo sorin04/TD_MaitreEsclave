@@ -4,22 +4,18 @@ import LiaisonSerie.LiaisonSerie;
 import ModBusRtu.BigEndian;
 import ModBusRtu.CRC16;
 import jssc.SerialPortException;
-import jssc.SerialPortException;
-
-
-import java.util.Arrays;
 
 public class ModBus extends LiaisonSerie {
     CRC16 crc16 = new CRC16();
     Byte numeroEsclave;
     byte [] resultatValeur = new byte[9];
     byte [] tramWithCRC16;
-    LiaisonSerie liaisonSerie = new LiaisonSerie();
+
 
     public ModBus(Byte numeroEsclave) {
         this.numeroEsclave = numeroEsclave;
     }
-    public ModeBus() {
+    public void ModeBus() {
 
     }
     public void fermerLiasonSerie() {
@@ -47,7 +43,7 @@ public class ModBus extends LiaisonSerie {
 
         byte [] tramWithoutCRC16 = {numeroEsclave, 0x03, msbAdresse, lsbAdresse, msbLongueur, lsbLongueur};
         int crc16Int;
-        crc16Int = crc16.calculCRC16(tramWithoutCRC16, crc16.getInitialValue(), crc16.getStdPoly());
+        crc16Int = crc16. calculCrc16(tramWithoutCRC16, crc16.getInitialValue(), crc16.getStdPoly());
         byte [] trameCrc16 = intDeuxBytes(crc16Int);
         byte msbCrc16 = trameCrc16[0];
         byte lsbCrc16 = trameCrc16[1];
