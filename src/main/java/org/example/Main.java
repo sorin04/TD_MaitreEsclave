@@ -9,29 +9,23 @@ public class Main {
         ModBus modbus ;
         modbus= new ModBus(In.readByte());
         System.out.println("Le COM ?");
+        modbus.connecterEsclave(In.readString(),9600,0,0,1);
         try {
-            modbus.connecterEsclave(In.readString(),9600,0,0,1);
-
-            ModBus finalModbus = modbus;
-
-            Thread receptionThread = new Thread(() -> {
-                while (true) {
-                    try {
-
-                        float resultat = finalModbus.lectureCoils(8192, 2);
+            while (true) {
+                try {
+                    float resultat = modbus.lectureCoils(8192, 2);
                         System.out.println("Résultat de la lecture : " + resultat);
                         Thread.sleep(3000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-            });
-            receptionThread.start();
-
-
-            receptionThread.join();
-        } catch (SerialPortException e){
+            } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+
     }
-}
+    }
+
+
